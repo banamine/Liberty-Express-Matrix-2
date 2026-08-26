@@ -6,12 +6,46 @@ import urllib.request
 import urllib.error
 import re
 
+def extract_rumble_metadata(html_content, target):
+    """
+    Extracts JSON-LD VideoObject metadata, differentiating the public video ID 
+    from the embed ID (e.g., v7bo7vg) required for reliable iframe embedding.
+    """
+    embed_id = None
+    video_id = target
+    
+    # Try parsing JSON-LD VideoObject schema for the true embedUrl
+    json_ld_pattern = r'<script[^>]+type="application/ld\+json"[^>]*>(.*?)</script>'
+    matches = re.findall(json_ld_pattern, html_content, re.DOTALL)
+    for match in matches:
+        try:
+            data = json.loads(match)
+            if isinstance(data, list):
+                data = data[0]
+            if isinstance(data, dict) and data.get('@type') == 'VideoObject':
+                embed_url = data.get('embedUrl', '')
+                if '/embed/' in embed_url:
+                    parts = embed_url.split('/embed/')
+                    if len(parts) > 1:
+                        embed_id = parts[-1].strip('/').split('/')[0]
+                break
+        except Exception:
+            continue
+
+    # Fallback regex for embed ID if JSON-LD parsing misses it
+    if not embed_id:
+        embed_match = re.search(r'/embed/([a-zA-Z0-9]+)', html_content)
+        if embed_match:
+            embed_id = embed_match.group(1)
+
+    # Extract public video ID from URL or slug
+    vid_match = re.search(r'/v([a-zA-Z0-9]+)-', target) or re.search(r'([a-zA-Z0-9]{6,8})', target)
+    if vid_match:
+        video_id = vid_match.group(1)
+
+    return embed_id or video_id, video_id
+
 def check_rumble_live_status(target):
-    """
-    Inspects Rumble channel or direct video/embed pages for playback sources.
-    Supports both channel IDs and direct video URLs/slugs (e.g., v7dur0o...).
-    """
-    # Normalize target into a full URL if it's a slug or ID
     if target.startswith("http://") or target.startswith("https://"):
         url = target
     elif target.startswith("v") and len(target) > 6:
@@ -31,11 +65,8 @@ def check_rumble_live_status(target):
                 return {"status": "error", "message": f"HTTP error {response.status}"}
             html = response.read().decode('utf-8', errors='ignore')
 
-        # Extract video ID if present in URL
-        vid_match = re.search(r'/v([a-zA-Z0-9]+)-', url) or re.search(r'([a-zA-Z0-9]{6,8})', target)
-        vid_id = vid_match.group(1) if vid_match else target
+        embed_id, video_id = extract_rumble_metadata(html, target)
 
-        # Check for live indicators or direct video stream sources (.m3u8 / .mp4)
         is_live = '"isLive":true' in html or 'class="stream-live-badge"' in html or 'isLive": true' in html
         hls_match = re.search(r'"url":"(https://[^"]+\.m3u8[^"]*)"', html)
         mp4_match = re.search(r'"url":"(https://[^"]+\.mp4[^"]*)"', html)
@@ -46,42 +77,38 @@ def check_rumble_live_status(target):
         elif mp4_match:
             stream_url = mp4_match.group(1).replace(r'\u002F', '/')
 
-        # If it's a valid video page or live stream, return active status with embed/stream URL
-        if is_live or hls_match or mp4_match or "v" in target:
-            embed_fallback = f"https://rumble.com/embed/{vid_id}/"
-            return {
-                "status": "live",
-                "channelId": target,
-                "streamUrl": stream_url or embed_fallback
-            }
-        else:
-            return {"status": "dvr_or_offline", "channelId": target}
+        # If no direct HLS/MP4 stream is active, construct the verified iframe embed URL
+        if not stream_url and embed_id:
+            stream_url = f"https://rumble.com/embed/{embed_id}/"
+
+        return {
+            "status": "live" if (is_live or stream_url or embed_id) else "dvr_or_offline",
+            "channelId": target,
+            "videoId": video_id,
+            "embedId": embed_id,
+            "streamUrl": stream_url or f"https://rumble.com/embed/{embed_id}/"
+        }
 
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
 def resolve_new_channel_id():
-    """
-    Dynamically rotates or retrieves a fresh active Rumble channel ID and HLS stream URL.
-    """
     active_pool = ["AJN-LIVE-PRIMARY", "AJN-LIVE-BACKUP-1", "realalexjones"]
     for cid in active_pool:
         result = check_rumble_live_status(cid)
         if result.get("status") == "live":
             return result
-            
-    # Fallback default if none active in pool
     return {
         "status": "live",
         "channelId": "AJN-LIVE-PRIMARY",
+        "embedId": "AJN-LIVE-PRIMARY",
         "streamUrl": "https://rumble.com/embed/AJN-LIVE-PRIMARY/"
     }
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Rumble Stream Resolver")
+    parser = argparse.ArgumentParser(description="Rumble Stream & Embed Resolver")
     parser.add_argument("--check", type=str, help="Check stream status for channel ID or video URL")
     parser.add_argument("--resolve-new", action="store_true", help="Resolve a new active channel ID")
-    
     args = parser.parse_args()
     
     if args.check:
