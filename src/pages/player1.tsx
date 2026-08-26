@@ -82,6 +82,8 @@ export default function Player1() {
     setStatus('LOADING');
     
     if (hlsRef.current) {
+      hlsRef.current.stopLoad();
+      hlsRef.current.detachMedia();
       hlsRef.current.destroy();
       hlsRef.current = null;
     }
@@ -127,6 +129,7 @@ export default function Player1() {
     
     return () => {
       if (hlsRef.current) {
+        hlsRef.current.stopLoad();
         hlsRef.current.detachMedia();
         hlsRef.current.destroy();
         hlsRef.current = null;

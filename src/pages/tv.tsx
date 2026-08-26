@@ -101,6 +101,8 @@ export default function TVPlayer() {
     telemetry.info('playback', 'Switching stream', { channel: activeChannel, url: currentUrl, title: currentTitle });
     
     if (hlsRef.current) {
+      hlsRef.current.stopLoad();
+      hlsRef.current.detachMedia();
       hlsRef.current.destroy();
       hlsRef.current = null;
     }
@@ -162,6 +164,7 @@ export default function TVPlayer() {
 
     return () => {
       if (hlsRef.current) {
+        hlsRef.current.stopLoad();
         hlsRef.current.detachMedia();
         hlsRef.current.destroy();
         hlsRef.current = null;
