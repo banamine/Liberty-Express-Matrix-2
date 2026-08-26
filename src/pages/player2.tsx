@@ -135,8 +135,8 @@ export default function Player2() {
     
     return { 
       items: [
-        { show: 'Alex', hour: 1, url: 'https://archive.org/download/CSPAN_20120504_180000_Q_and_A/CSPAN_20120504_180000_Q_and_A.mp4', filename: 'fallback_Alex-Hr1.mp4' },
-        { show: 'WarRoom', hour: 1, url: 'https://archive.org/download/CSPAN_20120504_180000_Q_and_A/CSPAN_20120504_180000_Q_and_A.mp4', filename: 'fallback_WarRoom-Hr1.mp4' }
+        { show: 'Alex', hour: 1, url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', filename: 'fallback_Alex-Hr1.mp4' },
+        { show: 'WarRoom', hour: 1, url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4', filename: 'fallback_WarRoom-Hr1.mp4' }
       ], 
       isFallback: true, 
       dateStamp: getTargetDate(0) 

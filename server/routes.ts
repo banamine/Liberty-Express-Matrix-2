@@ -730,6 +730,56 @@ export function registerRoutes(app: Express) {
     }
   });
 
+  app.get('/api/linear-programming', async (req, res) => {
+    try {
+      const db = getDb();
+      const allEpisodes = await db.select().from(episodes).orderBy(desc(episodes.importedAt)).limit(50);
+      res.json({
+        success: true,
+        files: allEpisodes.length > 0 ? allEpisodes : [
+          {
+            title: "AJN Professional Broadcast - Linear Feed",
+            duration: 3600,
+            url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            groupTitle: "Alex"
+          }
+        ],
+        count: allEpisodes.length,
+        timestamp: new Date().toISOString()
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get('/api/static-rundowns', async (req, res) => {
+    try {
+      const outputPath = path.join(process.cwd(), 'public', 'data', 'daily-rundown.json');
+      if (fs.existsSync(outputPath)) {
+        const fileContent = await fs.promises.readFile(outputPath, 'utf-8');
+        const data = JSON.parse(fileContent);
+        return res.json(data);
+      }
+      res.json([]);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  app.get('/api/live-rundowns', async (req, res) => {
+    try {
+      const outputPath = path.join(process.cwd(), 'public', 'data', 'daily-rundown.json');
+      if (fs.existsSync(outputPath)) {
+        const fileContent = await fs.promises.readFile(outputPath, 'utf-8');
+        const data = JSON.parse(fileContent);
+        return res.json(data);
+      }
+      res.json([]);
+    } catch (e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
   app.get('/api/matrix-guide', async (req, res) => {
     try {
       const payload = await getMatrixGuidePayload();
