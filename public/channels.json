@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "generatedAt": "2026-08-26T02:39:20.701Z",
+  "generatedAt": "2026-08-26T03:03:28.890Z",
   "channels": [
     {
       "id": "player1",
@@ -20,7 +20,7 @@
     {
       "id": "news-player",
       "name": "Global News Feed (News Player)",
-      "type": "archive-archive",
+      "type": "archive",
       "source": "daily-rundown.json",
       "status": "LIVE",
       "streamUrl": "https://archive.org/download/CNNW_20260826_000000_Anderson_Cooper_360/CNNW_20260826_000000_Anderson_Cooper_360.mp4",
