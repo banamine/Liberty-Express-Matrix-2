@@ -17,12 +17,12 @@ export function TimeTravelPlayerDialog({ open, onOpenChange, url, title, timesta
   const hlsRef = useRef<Hls | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let processedUrl = url;
-    if (processedUrl && processedUrl.startsWith('/')) {
-      processedUrl = BACKEND_URL + processedUrl;
-    }
+  let processedUrl = url;
+  if (processedUrl && processedUrl.startsWith('/')) {
+    processedUrl = BACKEND_URL + processedUrl;
+  }
 
+  useEffect(() => {
     if (!open || !processedUrl || !videoRef.current) {
       if (hlsRef.current) {
         hlsRef.current.destroy();

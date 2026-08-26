@@ -1,0 +1,46 @@
+{
+  "version": "2.0.0",
+  "generatedAt": "2026-08-26T02:20:40.891Z",
+  "channels": [
+    {
+      "id": "player1",
+      "name": "AJN Playout (Player 1 / TV)",
+      "type": "hls",
+      "source": "aj-pool",
+      "status": "LIVE",
+      "streamUrl": "https://ajn.archives.pub/hourly-m4v/20260803_Mon_Alex-Hr1.m4v",
+      "fallbackUrl": "https://ajn.archives.pub/hourly-mp4/HD/20260803_Mon_Alex-Hr1.mp4",
+      "currentProgram": {
+        "id": "aj-5958491114f4e4a2",
+        "title": "2026-Aug-03, Monday · Alex Jones Show · Hour 1",
+        "duration": 3590,
+        "timestamp": "2026-08-03T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "news-player",
+      "name": "Global News Feed (News Player)",
+      "type": "archive-archive",
+      "source": "daily-rundown.json",
+      "status": "LIVE",
+      "streamUrl": "https://archive.org/download/CNNW_20260825_210000_The_Lead_With_Jake_Tapper/CNNW_20260825_210000_The_Lead_With_Jake_Tapper.mp4",
+      "currentProgram": {
+        "identifier": "CNNW_20260825_210000_The_Lead_With_Jake_Tapper",
+        "title": "The Lead With Jake Tapper : CNNW : August 25, 2026 2:00pm-3:00pm PDT",
+        "duration": 3657,
+        "thumbBase": "https://archive.org/services/get-item-image.php?identifier=CNNW_20260825_210000_The_Lead_With_Jake_Tapper&mediatype=movies",
+        "addedDate": "2026-08-25T21:00:00Z"
+      }
+    },
+    {
+      "id": "player2",
+      "name": "Live Player 2 (AJ Live / Rumble)",
+      "type": "embed",
+      "source": "manual-entry",
+      "status": "OFFLINE / SIGNAL PENDING",
+      "streamUrl": null,
+      "requiresManualUrl": true,
+      "note": "No confirmed live stream URL available right now. Requires manual URL entry."
+    }
+  ]
+}
