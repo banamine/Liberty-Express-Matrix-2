@@ -79,7 +79,7 @@ function generateChannels() {
       {
         id: "news-player",
         name: "Global News Feed (News Player)",
-        type: "archive-archive",
+        type: "archive",
         source: "daily-rundown.json",
         status: "LIVE",
         streamUrl: `https://archive.org/download/${newsSegment.identifier}/${newsSegment.identifier}.mp4`,

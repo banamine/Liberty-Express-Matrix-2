@@ -1,6 +1,6 @@
 {
   "version": "2.0.0",
-  "generatedAt": "2026-08-26T02:20:40.891Z",
+  "generatedAt": "2026-08-26T02:39:20.701Z",
   "channels": [
     {
       "id": "player1",
@@ -23,13 +23,13 @@
       "type": "archive-archive",
       "source": "daily-rundown.json",
       "status": "LIVE",
-      "streamUrl": "https://archive.org/download/CNNW_20260825_210000_The_Lead_With_Jake_Tapper/CNNW_20260825_210000_The_Lead_With_Jake_Tapper.mp4",
+      "streamUrl": "https://archive.org/download/CNNW_20260826_000000_Anderson_Cooper_360/CNNW_20260826_000000_Anderson_Cooper_360.mp4",
       "currentProgram": {
-        "identifier": "CNNW_20260825_210000_The_Lead_With_Jake_Tapper",
-        "title": "The Lead With Jake Tapper : CNNW : August 25, 2026 2:00pm-3:00pm PDT",
-        "duration": 3657,
-        "thumbBase": "https://archive.org/services/get-item-image.php?identifier=CNNW_20260825_210000_The_Lead_With_Jake_Tapper&mediatype=movies",
-        "addedDate": "2026-08-25T21:00:00Z"
+        "identifier": "CNNW_20260826_000000_Anderson_Cooper_360",
+        "title": "Anderson Cooper 360 : CNNW : August 25, 2026 5:00pm-6:00pm PDT",
+        "duration": 3658,
+        "thumbBase": "https://archive.org/services/get-item-image.php?identifier=CNNW_20260826_000000_Anderson_Cooper_360&mediatype=movies",
+        "addedDate": "2026-08-26T00:00:00Z"
       }
     },
     {
