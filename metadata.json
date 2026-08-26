@@ -1,0 +1,6 @@
+{
+  "name": "Matrix Stripper / AJN Chronicle News Network",
+  "description": "Cinematic broadcast suite with Matrix guide, multi-player linear/live playout, archive crawler, and news automation",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

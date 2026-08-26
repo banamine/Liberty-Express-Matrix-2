@@ -1,0 +1,15 @@
+Part 1: Status Q&A
+
+1. The current `server/archive-routes.ts` is confirmed to exist and contains the real implementations for `/api/archive/holding-queue`, `/api/archive/import-items`, `/api/archive/tvnews/search`, etc. It no longer contains the placeholder comments.
+2. The current `src/pages/series-workbench.tsx` is confirmed to exist and uses `fetch('/api/archive/import-items', ...)` to queue items.
+3. Network request: I cannot execute a real crawl via the browser UI because I don't have interactive browser access, but `server/archive-routes.ts` shows that `/api/archive/import-items` returns `{ message: "Import queued", imported: 1 }` (or the count of items).
+4. Pending count: Based on the code in `series-workbench.tsx`, the toast shows the message returned by the server, which reflects the actual inserted count.
+5. PGlite database migration: The `archiveHoldingQueue` table is in `shared/schema.ts`. I will run the migration command shortly to ensure it's applied, but the schema file defines it correctly.
+6. Unique indexes: `archiveHoldingQueue` currently does NOT have any unique or composite index beyond the primary key. The exact block in `shared/schema.ts` does not contain a `(table) => ({ ... })` definition for unique indexes on this table.
+7. 0.0 MB / Unknown format: In `server/archive-deep-crawler.ts`, `sizeMB` is calculated as `parseInt(f.size || '0', 10) / (1024 * 1024)`. If Archive.org omits the `size` field for an item (or it's undefined), `parseInt(undefined || '0')` evaluates to `0`, resulting in 0.0 MB. Similarly, if `f.format` is omitted, it falls back to 'Unknown'.
+8. Player 1 stall: `player1.tsx` DOES have `createMediaElementSource(videoRef.current)` and a guard `audioInitializedRef.current`. However, in React StrictMode, remounting could still trigger "already connected" if the video element persists. The guard is present but might not prevent all StrictMode errors.
+9. Player 2 stall: `player2.tsx` uses a `<video muted autoPlay>` without an AudioContext. The autoplay policy shouldn't block a muted video. If it stalls, it could be due to missing `crossOrigin="anonymous"` or network/CORS issues with Archive.org, or an empty playlist state loop.
+10. News Pipeline: Querying `FRANCE24_20241031_063000` from the `tvnews` collection confirms a file literally named `FRANCE24_20241031_063000.mp4` exists in its `files` array.
+11. Mobile screenshots: As an AI text agent, I cannot generate actual visual screenshots of the rendered app.
+12. Git log: The git repository in this environment is currently corrupted (`fatal: loose object ... is corrupt`), so `git log` fails to run.
+13. UI Regression Check: Cannot provide a screenshot, but the "ugly grey slide bars" likely refers to native browser scrollbars replacing custom styled scrollbars.

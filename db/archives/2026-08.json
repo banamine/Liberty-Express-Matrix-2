@@ -1,0 +1,546 @@
+{
+  "aj-5958491114f4e4a2": {
+    "id": "aj-5958491114f4e4a2",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260803_Mon_Alex-Hr1.m4v",
+    "title": "2026-Aug-03, Monday · Alex Jones Show · Hour 1",
+    "timestamp": "2026-08-03T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-2cbcb54487fc77dd": {
+    "id": "aj-2cbcb54487fc77dd",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260803_Mon_Alex-Hr2.m4v",
+    "title": "2026-Aug-03, Monday · Alex Jones Show · Hour 2",
+    "timestamp": "2026-08-03T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-ec88cf5cee59af83": {
+    "id": "aj-ec88cf5cee59af83",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260803_Mon_Alex-Hr3.m4v",
+    "title": "2026-Aug-03, Monday · Alex Jones Show · Hour 3",
+    "timestamp": "2026-08-03T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-73b4786525a7ff28": {
+    "id": "aj-73b4786525a7ff28",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260803_Mon_Alex-Hr4.m4v",
+    "title": "2026-Aug-03, Monday · Alex Jones Show · Hour 4",
+    "timestamp": "2026-08-03T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-d1607f80d5e85f2a": {
+    "id": "aj-d1607f80d5e85f2a",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260803_Mon_WarRoom-Hr1.m4v",
+    "title": "2026-Aug-03, Monday · War Room · Hour 1",
+    "timestamp": "2026-08-03T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-b932048edfd45e90": {
+    "id": "aj-b932048edfd45e90",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260803_Mon_WarRoom-Hr2.m4v",
+    "title": "2026-Aug-03, Monday · War Room · Hour 2",
+    "timestamp": "2026-08-03T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-0d70835378b0f9f2": {
+    "id": "aj-0d70835378b0f9f2",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260803_Mon_WarRoom-Hr3.m4v",
+    "title": "2026-Aug-03, Monday · War Room · Hour 3",
+    "timestamp": "2026-08-03T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-8ae7b2f0fe3b429d": {
+    "id": "aj-8ae7b2f0fe3b429d",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260804_Tue_Alex-Hr1.m4v",
+    "title": "2026-Aug-04, Tuesday · Alex Jones Show · Hour 1",
+    "timestamp": "2026-08-04T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-cee50e63226f4d11": {
+    "id": "aj-cee50e63226f4d11",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260804_Tue_Alex-Hr2.m4v",
+    "title": "2026-Aug-04, Tuesday · Alex Jones Show · Hour 2",
+    "timestamp": "2026-08-04T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-611e0dd714fea26d": {
+    "id": "aj-611e0dd714fea26d",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260804_Tue_Alex-Hr3.m4v",
+    "title": "2026-Aug-04, Tuesday · Alex Jones Show · Hour 3",
+    "timestamp": "2026-08-04T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-1f0c411ecc52b07d": {
+    "id": "aj-1f0c411ecc52b07d",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260804_Tue_Alex-Hr4.m4v",
+    "title": "2026-Aug-04, Tuesday · Alex Jones Show · Hour 4",
+    "timestamp": "2026-08-04T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-e00e07448f7bcd2f": {
+    "id": "aj-e00e07448f7bcd2f",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260804_Tue_WarRoom-Hr1.m4v",
+    "title": "2026-Aug-04, Tuesday · War Room · Hour 1",
+    "timestamp": "2026-08-04T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-dec86bac75a56a66": {
+    "id": "aj-dec86bac75a56a66",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260804_Tue_WarRoom-Hr2.m4v",
+    "title": "2026-Aug-04, Tuesday · War Room · Hour 2",
+    "timestamp": "2026-08-04T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-967636aebd02528a": {
+    "id": "aj-967636aebd02528a",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260804_Tue_WarRoom-Hr3.m4v",
+    "title": "2026-Aug-04, Tuesday · War Room · Hour 3",
+    "timestamp": "2026-08-04T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-84d180d9c9a215ec": {
+    "id": "aj-84d180d9c9a215ec",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260805_Wed_Alex-Hr1.m4v",
+    "title": "2026-Aug-05, Wednesday · Alex Jones Show · Hour 1",
+    "timestamp": "2026-08-05T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-90dc6e0c4399f22c": {
+    "id": "aj-90dc6e0c4399f22c",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260805_Wed_Alex-Hr2.m4v",
+    "title": "2026-Aug-05, Wednesday · Alex Jones Show · Hour 2",
+    "timestamp": "2026-08-05T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-e06a69895898b374": {
+    "id": "aj-e06a69895898b374",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260805_Wed_Alex-Hr3.m4v",
+    "title": "2026-Aug-05, Wednesday · Alex Jones Show · Hour 3",
+    "timestamp": "2026-08-05T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-a20cb85b21c1d23c": {
+    "id": "aj-a20cb85b21c1d23c",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260805_Wed_Alex-Hr4.m4v",
+    "title": "2026-Aug-05, Wednesday · Alex Jones Show · Hour 4",
+    "timestamp": "2026-08-05T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-e7c4087cdf97eab4": {
+    "id": "aj-e7c4087cdf97eab4",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260805_Wed_WarRoom-Hr1.m4v",
+    "title": "2026-Aug-05, Wednesday · War Room · Hour 1",
+    "timestamp": "2026-08-05T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-a68e0394d5c660cd": {
+    "id": "aj-a68e0394d5c660cd",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260805_Wed_WarRoom-Hr2.m4v",
+    "title": "2026-Aug-05, Wednesday · War Room · Hour 2",
+    "timestamp": "2026-08-05T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-d0d66eb953f4a2e4": {
+    "id": "aj-d0d66eb953f4a2e4",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260805_Wed_WarRoom-Hr3.m4v",
+    "title": "2026-Aug-05, Wednesday · War Room · Hour 3",
+    "timestamp": "2026-08-05T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-9f226ed1145e7c77": {
+    "id": "aj-9f226ed1145e7c77",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260806_Thu_Alex-Hr1.m4v",
+    "title": "2026-Aug-06, Thursday · Alex Jones Show · Hour 1",
+    "timestamp": "2026-08-06T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-247225db9ab6460a": {
+    "id": "aj-247225db9ab6460a",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260806_Thu_Alex-Hr2.m4v",
+    "title": "2026-Aug-06, Thursday · Alex Jones Show · Hour 2",
+    "timestamp": "2026-08-06T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-519e1fcf38dd3443": {
+    "id": "aj-519e1fcf38dd3443",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260806_Thu_Alex-Hr3.m4v",
+    "title": "2026-Aug-06, Thursday · Alex Jones Show · Hour 3",
+    "timestamp": "2026-08-06T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-4ac0702017802afc": {
+    "id": "aj-4ac0702017802afc",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260806_Thu_Alex-Hr4.m4v",
+    "title": "2026-Aug-06, Thursday · Alex Jones Show · Hour 4",
+    "timestamp": "2026-08-06T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-36d391ba3a96fe4d": {
+    "id": "aj-36d391ba3a96fe4d",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260806_Thu_WarRoom-Hr1.m4v",
+    "title": "2026-Aug-06, Thursday · War Room · Hour 1",
+    "timestamp": "2026-08-06T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-ae7c6adb3267b2d4": {
+    "id": "aj-ae7c6adb3267b2d4",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260806_Thu_WarRoom-Hr2.m4v",
+    "title": "2026-Aug-06, Thursday · War Room · Hour 2",
+    "timestamp": "2026-08-06T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-e9548c2bda3e4fc2": {
+    "id": "aj-e9548c2bda3e4fc2",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260806_Thu_WarRoom-Hr3.m4v",
+    "title": "2026-Aug-06, Thursday · War Room · Hour 3",
+    "timestamp": "2026-08-06T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-c23c2ee49c42a766": {
+    "id": "aj-c23c2ee49c42a766",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260807_Fri_Alex-Hr1.m4v",
+    "title": "2026-Aug-07, Friday · Alex Jones Show · Hour 1",
+    "timestamp": "2026-08-07T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-025429522362ca82": {
+    "id": "aj-025429522362ca82",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260807_Fri_Alex-Hr2.m4v",
+    "title": "2026-Aug-07, Friday · Alex Jones Show · Hour 2",
+    "timestamp": "2026-08-07T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-54c1456e7ab38397": {
+    "id": "aj-54c1456e7ab38397",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260807_Fri_Alex-Hr3.m4v",
+    "title": "2026-Aug-07, Friday · Alex Jones Show · Hour 3",
+    "timestamp": "2026-08-07T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-be4e0fc67e4c77e4": {
+    "id": "aj-be4e0fc67e4c77e4",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260807_Fri_Alex-Hr4.m4v",
+    "title": "2026-Aug-07, Friday · Alex Jones Show · Hour 4",
+    "timestamp": "2026-08-07T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-1c05d63aaaf545ef": {
+    "id": "aj-1c05d63aaaf545ef",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260807_Fri_WarRoom-Hr1.m4v",
+    "title": "2026-Aug-07, Friday · War Room · Hour 1",
+    "timestamp": "2026-08-07T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-d2290e072e3867f9": {
+    "id": "aj-d2290e072e3867f9",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260807_Fri_WarRoom-Hr2.m4v",
+    "title": "2026-Aug-07, Friday · War Room · Hour 2",
+    "timestamp": "2026-08-07T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-5a77fb0f6258b585": {
+    "id": "aj-5a77fb0f6258b585",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260807_Fri_WarRoom-Hr3.m4v",
+    "title": "2026-Aug-07, Friday · War Room · Hour 3",
+    "timestamp": "2026-08-07T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-ca355da9c13c0f88": {
+    "id": "aj-ca355da9c13c0f88",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260808_Sat_Alex-Special.m4v",
+    "title": "20260808_Sat_Alex-Special",
+    "timestamp": "2026-08-08T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 20200
+  },
+  "aj-0c377b23320edafc": {
+    "id": "aj-0c377b23320edafc",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260809_Sun_SundayLive-Hr2.m4v",
+    "title": "2026-Aug-09, Sunday · SundayLive · Hour 2",
+    "timestamp": "2026-08-09T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-0b33d01838080aee": {
+    "id": "aj-0b33d01838080aee",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260809_Sun_SundayLive-Hr1.m4v",
+    "title": "2026-Aug-09, Sunday · SundayLive · Hour 1",
+    "timestamp": "2026-08-09T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-b453d90740f5b10e": {
+    "id": "aj-b453d90740f5b10e",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260809_Sun_Alex-Hr2.m4v",
+    "title": "2026-Aug-09, Sunday · Alex Jones Show · Hour 2",
+    "timestamp": "2026-08-09T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-4dd41e650912217c": {
+    "id": "aj-4dd41e650912217c",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260809_Sun_Alex-Hr1.m4v",
+    "title": "2026-Aug-09, Sunday · Alex Jones Show · Hour 1",
+    "timestamp": "2026-08-09T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-26041554aaf1627c": {
+    "id": "aj-26041554aaf1627c",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260811_Tue_WarRoom-Hr2.m4v",
+    "title": "2026-Aug-11, Tuesday · War Room · Hour 2",
+    "timestamp": "2026-08-11T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-286022dca381811d": {
+    "id": "aj-286022dca381811d",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260811_Tue_WarRoom-Hr1.m4v",
+    "title": "2026-Aug-11, Tuesday · War Room · Hour 1",
+    "timestamp": "2026-08-11T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-e2b506c3d47812f4": {
+    "id": "aj-e2b506c3d47812f4",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260811_Tue_Alex-Hr4.m4v",
+    "title": "2026-Aug-11, Tuesday · Alex Jones Show · Hour 4",
+    "timestamp": "2026-08-11T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-b47e9cac7fb781ad": {
+    "id": "aj-b47e9cac7fb781ad",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260811_Tue_Alex-Hr3.m4v",
+    "title": "2026-Aug-11, Tuesday · Alex Jones Show · Hour 3",
+    "timestamp": "2026-08-11T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-f627f3350a40d9b5": {
+    "id": "aj-f627f3350a40d9b5",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260811_Tue_Alex-Hr2.m4v",
+    "title": "2026-Aug-11, Tuesday · Alex Jones Show · Hour 2",
+    "timestamp": "2026-08-11T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-be197f57f03a9c2a": {
+    "id": "aj-be197f57f03a9c2a",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260811_Tue_Alex-Hr1.m4v",
+    "title": "2026-Aug-11, Tuesday · Alex Jones Show · Hour 1",
+    "timestamp": "2026-08-11T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-8a327de1e6fb3a1c": {
+    "id": "aj-8a327de1e6fb3a1c",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260810_Mon_WarRoom-Hr3.m4v",
+    "title": "2026-Aug-10, Monday · War Room · Hour 3",
+    "timestamp": "2026-08-10T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-055696a8c2635f62": {
+    "id": "aj-055696a8c2635f62",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260810_Mon_WarRoom-Hr2.m4v",
+    "title": "2026-Aug-10, Monday · War Room · Hour 2",
+    "timestamp": "2026-08-10T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-1274f6beb3441d96": {
+    "id": "aj-1274f6beb3441d96",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260810_Mon_WarRoom-Hr1.m4v",
+    "title": "2026-Aug-10, Monday · War Room · Hour 1",
+    "timestamp": "2026-08-10T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-6507a0e759ae3db7": {
+    "id": "aj-6507a0e759ae3db7",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260810_Mon_Alex-Hr4.m4v",
+    "title": "2026-Aug-10, Monday · Alex Jones Show · Hour 4",
+    "timestamp": "2026-08-10T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-f9ca6e7bba908658": {
+    "id": "aj-f9ca6e7bba908658",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260810_Mon_Alex-Hr3.m4v",
+    "title": "2026-Aug-10, Monday · Alex Jones Show · Hour 3",
+    "timestamp": "2026-08-10T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-670fa575c40640d4": {
+    "id": "aj-670fa575c40640d4",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260810_Mon_Alex-Hr2.m4v",
+    "title": "2026-Aug-10, Monday · Alex Jones Show · Hour 2",
+    "timestamp": "2026-08-10T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-923a9cc0debb88a6": {
+    "id": "aj-923a9cc0debb88a6",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260810_Mon_Alex-Hr1.m4v",
+    "title": "2026-Aug-10, Monday · Alex Jones Show · Hour 1",
+    "timestamp": "2026-08-10T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-a8100db91e2bee17": {
+    "id": "aj-a8100db91e2bee17",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260811_Tue_WarRoom-Hr3.m4v",
+    "title": "2026-Aug-11, Tuesday · War Room · Hour 3",
+    "timestamp": "2026-08-11T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-49bbe35eb5fd31c6": {
+    "id": "aj-49bbe35eb5fd31c6",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260812_Wed_Alex-Hr1.m4v",
+    "title": "2026-Aug-12, Wednesday · Alex Jones Show · Hour 1",
+    "timestamp": "2026-08-12T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-6668a1c61892f7c3": {
+    "id": "aj-6668a1c61892f7c3",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260812_Wed_Alex-Hr2.m4v",
+    "title": "2026-Aug-12, Wednesday · Alex Jones Show · Hour 2",
+    "timestamp": "2026-08-12T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-84769edd57287a06": {
+    "id": "aj-84769edd57287a06",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260812_Wed_Alex-Hr3.m4v",
+    "title": "2026-Aug-12, Wednesday · Alex Jones Show · Hour 3",
+    "timestamp": "2026-08-12T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-34bca4816de3cda0": {
+    "id": "aj-34bca4816de3cda0",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260812_Wed_WarRoom-Hr3.m4v",
+    "title": "2026-Aug-12, Wednesday · War Room · Hour 3",
+    "timestamp": "2026-08-12T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-e335b189ccb0646f": {
+    "id": "aj-e335b189ccb0646f",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260812_Wed_WarRoom-Hr2.m4v",
+    "title": "2026-Aug-12, Wednesday · War Room · Hour 2",
+    "timestamp": "2026-08-12T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-8425fb9a83734710": {
+    "id": "aj-8425fb9a83734710",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260812_Wed_WarRoom-Hr1.m4v",
+    "title": "2026-Aug-12, Wednesday · War Room · Hour 1",
+    "timestamp": "2026-08-12T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-76b08c39487d065b": {
+    "id": "aj-76b08c39487d065b",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260812_Wed_Alex-Hr4.m4v",
+    "title": "2026-Aug-12, Wednesday · Alex Jones Show · Hour 4",
+    "timestamp": "2026-08-12T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-e17c39b6ea3fe49e": {
+    "id": "aj-e17c39b6ea3fe49e",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260813_Thu_Alex-Hr1.m4v",
+    "title": "2026-Aug-13, Thursday · Alex Jones Show · Hour 1",
+    "timestamp": "2026-08-13T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-7184cf58f67e938f": {
+    "id": "aj-7184cf58f67e938f",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260813_Thu_WarRoom-Hr1.m4v",
+    "title": "2026-Aug-13, Thursday · War Room · Hour 1",
+    "timestamp": "2026-08-13T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-bc4c9ddf45ffcb72": {
+    "id": "aj-bc4c9ddf45ffcb72",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260813_Thu_Alex-Hr4.m4v",
+    "title": "2026-Aug-13, Thursday · Alex Jones Show · Hour 4",
+    "timestamp": "2026-08-13T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-144c9f3cd4be6de8": {
+    "id": "aj-144c9f3cd4be6de8",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260813_Thu_Alex-Hr3.m4v",
+    "title": "2026-Aug-13, Thursday · Alex Jones Show · Hour 3",
+    "timestamp": "2026-08-13T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-5d40155c04445069": {
+    "id": "aj-5d40155c04445069",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260813_Thu_Alex-Hr2.m4v",
+    "title": "2026-Aug-13, Thursday · Alex Jones Show · Hour 2",
+    "timestamp": "2026-08-13T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-0939b48c29a5713c": {
+    "id": "aj-0939b48c29a5713c",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260813_Thu_WarRoom-Hr3.m4v",
+    "title": "2026-Aug-13, Thursday · War Room · Hour 3",
+    "timestamp": "2026-08-13T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  },
+  "aj-3fb60783e6487a2d": {
+    "id": "aj-3fb60783e6487a2d",
+    "url": "https://ajn.archives.pub/hourly-m4v/20260813_Thu_WarRoom-Hr2.m4v",
+    "title": "2026-Aug-13, Thursday · War Room · Hour 2",
+    "timestamp": "2026-08-13T00:00:00.000Z",
+    "status": "ARCHIVED",
+    "duration": 3590
+  }
+}

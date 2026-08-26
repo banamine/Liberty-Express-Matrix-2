@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+try {
+  const originalFetch = window.fetch;
+  Object.defineProperty(window, 'fetch', {
+    value: async function(...args) { return originalFetch(...args); },
+    writable: true,
+    configurable: true
+  });
+  console.log("Success");
+} catch(e) {
+  console.log("Error:", e.message);
+}
+</script>
+</body>
+</html>

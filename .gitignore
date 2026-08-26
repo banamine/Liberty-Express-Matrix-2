@@ -1,0 +1,15 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+pgdata/
+test.js
+test-archive.js
+rt_old.json
+rt_sample.json
+*.patch
+rumble_cache.json

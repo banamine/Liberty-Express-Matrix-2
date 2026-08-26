@@ -1,0 +1,122 @@
+/* True Black OLED Base */
+.matrix-canvas {
+  background-color: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+  padding: 20px;
+  font-family: 'Consolas', 'Courier New', monospace;
+}
+
+/* Glassmorphic Structural Panels */
+.glass-panel {
+  background: rgba(15, 15, 15, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Neon Accents & Typography */
+.neon-title {
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+.cyan-glow {
+  color: #0ff;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+}
+
+.neon-cyan-text {
+  color: #0ff;
+}
+
+.neon-gold-text {
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.neon-btn {
+  background: transparent;
+  color: #888;
+  border: 1px solid #333;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.neon-btn:hover {
+  border-color: #0ff;
+  color: #0ff;
+}
+
+.neon-btn.active-green {
+  border-color: #39ff14;
+  color: #39ff14;
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.3) inset;
+}
+
+/* Status Badges & Indicators */
+.badge {
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.neon-green-bg {
+  background-color: rgba(57, 255, 20, 0.15);
+  color: #39ff14;
+  border: 1px solid #39ff14;
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
+}
+
+.live-indicator {
+  color: #ff003c;
+  animation: pulse 2s infinite;
+  font-size: 0.9rem;
+  margin-left: auto;
+}
+
+.countdown-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 15px 0;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border-left: 3px solid #ffd700;
+}
+
+.countdown-clock {
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.player-viewport {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: #050505;
+  border: 1px solid #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}

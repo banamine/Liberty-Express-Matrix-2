@@ -1,0 +1,59 @@
+.matrix-guide-cell {
+  position: relative;
+  overflow: hidden; /* Stops image bleeding into adjacent channels */
+  background-size: calc(100% * var(--total-columns)) calc(100% * var(--total-rows));
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  min-height: 80px;
+}
+.fallback-cell {
+  background-color: #222222;
+}
+
+/* Container for the program timeline block */
+.timeline-slot-container {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--surface-1, #1a1a1a);
+}
+
+/* Micro-preview sequence container layer placed behind text elements */
+.micro-thumbnail-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Sits beneath track text titles */
+  pointer-events: none; /* Allows clicks to cleanly pass through */
+}
+
+/* Individual 1-minute frame boxes */
+.micro-preview-tile {
+  flex: 1 0 calc(100% / var(--slot-total-minutes));
+  height: 100%;
+  box-sizing: border-box;
+  
+  /* Retain alignment markers matching background lines */
+  border-right: 1px solid rgba(255, 255, 255, 0.08); 
+  background-repeat: no-repeat;
+  
+  /* Matrix slicing sizing logic */
+  background-size: calc(100% * var(--matrix-cols)) calc(100% * var(--matrix-rows));
+  background-position: 
+    calc((var(--col-idx) / (var(--matrix-cols) - 1)) * 100%) 
+    calc((var(--row-idx) / (var(--matrix-rows) - 1)) * 100%);
+  
+  /* Use the inline sprite URL variable */
+  background-image: var(--sprite-url, none);
+}
+
+/* Rule 1: Fail-safe fallback state for empty channels or missing textures */
+.micro-preview-tile.empty-state {
+  background-image: none !important;
+  background-color: transparent;
+}
