@@ -64,10 +64,15 @@ export default function Player1() {
 
   const currentProgram = programQueue[currentIndex];
   const computedTargetUrl = activeBumper?.videoUrl || currentProgram?.url || currentProgram?.videoUrl || currentProgram?.fallbackUrl;
-  let targetUrl = fallbackUrlOverride || computedTargetUrl;
+  let rawTargetUrl = fallbackUrlOverride || computedTargetUrl;
   
-  if (targetUrl && targetUrl.startsWith('/')) {
-    targetUrl = BACKEND_URL + targetUrl;
+  let targetUrl = rawTargetUrl;
+  if (targetUrl) {
+    if (targetUrl.startsWith('http') && !targetUrl.includes('.m3u8') && !targetUrl.includes('/api/media-proxy')) {
+      targetUrl = `/api/media-proxy?url=${encodeURIComponent(targetUrl)}`;
+    } else if (targetUrl.startsWith('/') && !targetUrl.startsWith('/api/')) {
+      targetUrl = BACKEND_URL + targetUrl;
+    }
   }
 
   useEffect(() => {
@@ -142,23 +147,16 @@ export default function Player1() {
 
   const handleVideoError = () => {
     const isFormatError = videoRef.current?.error?.code === 4;
-    if (targetUrl && (targetUrl.includes('ajn.archives.pub') || isFormatError) && !fallbackUrlOverride) {
-      const reliableFallback = 'https://archive.org/download/CSPAN_20120504_180000_Q_and_A/CSPAN_20120504_180000_Q_and_A.mp4';
-      telemetry.log("warn", "network", `Player1 Stream Error on ${targetUrl}: Switching to Archive.org CSPAN MP4 fallback`);
+    if (!fallbackUrlOverride) {
+      const reliableFallback = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+      telemetry.log("warn", "network", `Player1 Stream Error on ${targetUrl}: Switching to BigBuckBunny MP4 fallback`);
       setFallbackUrlOverride(reliableFallback);
       setRetryCount(0);
       return;
     }
     if (retryCount >= 1 || isFormatError) {
-      if (targetUrl && targetUrl.endsWith('.m4v')) {
-        const fallbackUrl = targetUrl.replace('.m4v', '.mp4');
-        telemetry.log("warn", "network", `Fallback Protocol Initiated: Switching to ${fallbackUrl}`);
-        setFallbackUrlOverride(fallbackUrl);
-        setRetryCount(0);
-      } else {
-        telemetry.log("error", "network", `Terminal Playback Failure for ${targetUrl}, skipping to next program`);
-        handleNext();
-      }
+      telemetry.log("error", "network", `Terminal Playback Failure for ${targetUrl}, skipping to next program`);
+      handleNext();
     } else {
       setRetryCount(prev => prev + 1);
       telemetry.log("warn", "network", `Playback failed. Retry attempt ${retryCount + 1}/1`);

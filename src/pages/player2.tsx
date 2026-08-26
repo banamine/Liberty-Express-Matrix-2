@@ -167,7 +167,11 @@ export default function Player2() {
   useEffect(() => {
     if (videoRef.current && playlist.length > 0) {
       const baseItemUrl = playlist[currentIndex].url;
-      const newUrl = fallbackUrlOverride || baseItemUrl;
+      let proxiedUrl = baseItemUrl;
+      if (proxiedUrl.startsWith('http') && !proxiedUrl.includes('/api/media-proxy')) {
+        proxiedUrl = `/api/media-proxy?url=${encodeURIComponent(proxiedUrl)}`;
+      }
+      const newUrl = fallbackUrlOverride || proxiedUrl;
       // Only assign if it actually changed, to prevent the 60s restart loop
       if (videoRef.current.getAttribute('src') !== newUrl) {
         videoRef.current.src = newUrl;

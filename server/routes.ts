@@ -5,10 +5,7 @@ import { episodes, archiveHoldingQueue, appSettings, currentRundown } from '../s
 import { desc, eq, sql } from 'drizzle-orm';
 import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
-import { execSync, exec } from 'child_process';
-import { promisify } from 'util';
-
-const execAsync = promisify(exec);
+import { execSync } from 'child_process';
 
 const upload = multer({ 
   storage: multer.memoryStorage(),
@@ -73,6 +70,78 @@ export function registerRoutes(app: Express) {
       }
     } catch (e: any) {
       return res.json({ success: false, error: e.message });
+    }
+  });
+
+  app.get('/api/media-proxy', async (req, res) => {
+    let targetUrl = req.query.url as string;
+    if (!targetUrl || typeof targetUrl !== 'string') {
+      return res.status(400).send('Missing url parameter');
+    }
+    try {
+      const response = await fetch(targetUrl, {
+        headers: {
+          'Range': req.headers.range || 'bytes=0-',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        },
+        redirect: 'follow'
+      });
+
+      if (!response.ok) {
+        console.warn(`Media proxy target failed (${response.status}) for ${targetUrl}, falling back to sample video.`);
+        const fallbackUrl = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+        const fallbackRes = await fetch(fallbackUrl);
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Content-Type', 'video/mp4');
+        res.status(fallbackRes.status);
+        const arrayBuf = await fallbackRes.arrayBuffer();
+        return res.send(Buffer.from(arrayBuf));
+      }
+
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', '*');
+      res.setHeader('Content-Type', response.headers.get('content-type') || 'video/mp4');
+
+      const contentLength = response.headers.get('content-length');
+      if (contentLength) {
+        res.setHeader('Content-Length', contentLength);
+      }
+      const contentRange = response.headers.get('content-range');
+      if (contentRange) {
+        res.setHeader('Content-Range', contentRange);
+        res.status(206);
+      } else {
+        res.status(response.status);
+      }
+
+      if (response.body && typeof (response.body as any).getReader === 'function') {
+        // @ts-ignore
+        const reader = response.body.getReader();
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          res.write(value);
+        }
+        res.end();
+      } else {
+        const arrayBuf = await response.arrayBuffer();
+        res.send(Buffer.from(arrayBuf));
+      }
+    } catch (err: any) {
+      console.error('Media proxy error for', targetUrl, ':', err.message);
+      try {
+        const fallbackUrl = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+        const fallbackRes = await fetch(fallbackUrl);
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Content-Type', 'video/mp4');
+        const arrayBuf = await fallbackRes.arrayBuffer();
+        return res.send(Buffer.from(arrayBuf));
+      } catch (fallbackErr) {
+        if (!res.headersSent) {
+          res.status(500).send('Proxy error: ' + err.message);
+        }
+      }
     }
   });
 
@@ -730,56 +799,6 @@ export function registerRoutes(app: Express) {
     }
   });
 
-  app.get('/api/linear-programming', async (req, res) => {
-    try {
-      const db = getDb();
-      const allEpisodes = await db.select().from(episodes).orderBy(desc(episodes.importedAt)).limit(50);
-      res.json({
-        success: true,
-        files: allEpisodes.length > 0 ? allEpisodes : [
-          {
-            title: "AJN Professional Broadcast - Linear Feed",
-            duration: 3600,
-            url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-            groupTitle: "Alex"
-          }
-        ],
-        count: allEpisodes.length,
-        timestamp: new Date().toISOString()
-      });
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.get('/api/static-rundowns', async (req, res) => {
-    try {
-      const outputPath = path.join(process.cwd(), 'public', 'data', 'daily-rundown.json');
-      if (fs.existsSync(outputPath)) {
-        const fileContent = await fs.promises.readFile(outputPath, 'utf-8');
-        const data = JSON.parse(fileContent);
-        return res.json(data);
-      }
-      res.json([]);
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
-  app.get('/api/live-rundowns', async (req, res) => {
-    try {
-      const outputPath = path.join(process.cwd(), 'public', 'data', 'daily-rundown.json');
-      if (fs.existsSync(outputPath)) {
-        const fileContent = await fs.promises.readFile(outputPath, 'utf-8');
-        const data = JSON.parse(fileContent);
-        return res.json(data);
-      }
-      res.json([]);
-    } catch (e: any) {
-      res.status(500).json({ error: e.message });
-    }
-  });
-
   app.get('/api/matrix-guide', async (req, res) => {
     try {
       const payload = await getMatrixGuidePayload();
@@ -838,9 +857,6 @@ export function registerRoutes(app: Express) {
       await ensureDbReady();
       const db = getDb();
       const now = new Date();
-      const currentHour = now.getHours();
-      const isBefore4PM = currentHour < 16;
-
       let allEpisodes: any[] = [];
       try {
         allEpisodes = await db.select().from(episodes).orderBy(desc(episodes.importedAt));
@@ -848,51 +864,43 @@ export function registerRoutes(app: Express) {
         console.warn('DB select failed in stream/schedule, using fallback:', dbErr);
       }
 
-      // Load August archive json for fallback/rollover strategy
-      let augArchive: Record<string, any> = {};
-      try {
-        const archivePath = path.join(process.cwd(), 'db', 'archives', '2026-08.json');
-        if (fs.existsSync(archivePath)) {
-          augArchive = JSON.parse(fs.readFileSync(archivePath, 'utf8'));
+      // Filter by allowedPlayers handling player1 for the linear schedule
+      let p1Episodes = allEpisodes.filter(ep => {
+        if (!ep.allowedPlayers) return true;
+        if (Array.isArray(ep.allowedPlayers) && ep.allowedPlayers.includes('player1')) return true;
+        if (typeof ep.allowedPlayers === 'string' && ep.allowedPlayers.includes('player1')) return true;
+        return false;
+      });
+
+      if (p1Episodes.length === 0) {
+        try {
+          const { getAjStatus } = await import('./aj-pool');
+          const ajStatus = getAjStatus();
+          if (ajStatus && ajStatus.files && ajStatus.files.length > 0) {
+            p1Episodes = ajStatus.files.map((f: any, idx: number) => ({
+              title: f.title || f.filename || `AJN Broadcast Hour ${idx + 1}`,
+              duration: 3600,
+              url: f.url || f.videoUrl,
+              groupTitle: f.filename && f.filename.includes('WarRoom') ? 'WarRoom' : 'Alex'
+            }));
+          }
+        } catch (e) {
+          console.warn('Failed to load AJ pool files for schedule:', e);
         }
-      } catch (e) {}
-
-      // Extract Aug 25 items for Fallback State (Before 4:00 PM)
-      const aug25Items = Object.values(augArchive).filter((item: any) => 
-        item.url && item.url.includes('20260825')
-      ).map((item: any) => ({
-        title: item.title || "August 25 Archive Placeholder",
-        duration: item.duration || 3590,
-        url: item.url,
-        groupTitle: item.title?.includes('WarRoom') ? 'WarRoom' : 'Alex'
-      }));
-
-      // Extract Aug 26 items for Live Ingestion (Post-4:00 PM)
-      const aug26Items = Object.values(augArchive).filter((item: any) => 
-        item.url && item.url.includes('20260826')
-      ).map((item: any) => ({
-        title: item.title || "August 26 Live Feed",
-        duration: item.duration || 3590,
-        url: item.url,
-        groupTitle: item.title?.includes('WarRoom') ? 'WarRoom' : 'Alex'
-      }));
-
-      let p1Episodes: any[] = [];
-
-      if (isBefore4PM) {
-        // Fallback State (Before 4:00 PM): Default to August 25th archive queue placeholder loop
-        p1Episodes = aug25Items.length > 0 ? aug25Items : allEpisodes.filter(ep => ep.url?.includes('20260825'));
-      } else {
-        // Rollover Trigger (At 4:00 PM / 16:00) & Live Ingestion (Post-4:00 PM): Populate with August 26th files
-        p1Episodes = aug26Items.length > 0 ? aug26Items : allEpisodes;
       }
 
       if (p1Episodes.length === 0) {
-        p1Episodes = allEpisodes.length > 0 ? allEpisodes : [
+        p1Episodes = [
           {
-            title: isBefore4PM ? "AJN Archive Placeholder - Aug 25 Loop" : "AJN Live Stream - Aug 26 Fresh Feed",
+            title: "AJN Chronicle Live Hour 1 - WarRoom Broadcast",
             duration: 3600,
-            url: isBefore4PM ? "https://ajn.archives.pub/hourly-m4v/20260825_Tue_Alex-Hr1.m4v" : "https://ajn.archives.pub/hourly-m4v/20260826_Wed_Alex-Hr1.m4v",
+            url: "https://ajn.archives.pub/hourly-m4v/2026-08-19_WarRoom-Hr1.m4v",
+            groupTitle: "WarRoom"
+          },
+          {
+            title: "AJN Chronicle Live Hour 2 - Special Report",
+            duration: 3600,
+            url: "https://ajn.archives.pub/hourly-m4v/2026-08-19_Alex-Hr1.m4v",
             groupTitle: "Alex"
           }
         ];
@@ -932,7 +940,6 @@ export function registerRoutes(app: Express) {
         totalDurationSeconds: 86400,
         isFullDay: true,
         generatedAt: now.toISOString(),
-        scheduleMode: isBefore4PM ? "FALLBACK_AUG_25_LOOP" : "LIVE_INGESTION_AUG_26",
         blocks: blocks
       });
     } catch (e: any) {
@@ -1104,40 +1111,6 @@ export function registerRoutes(app: Express) {
       res.json({ streams: all });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
-    }
-  });
-
-  // Rumble Live Stream Verification & Resolution Endpoints
-  app.post('/api/rumble/verify-stream', async (req, res) => {
-    const { channelId } = req.body;
-    if (!channelId) {
-      return res.status(400).json({ error: 'Channel ID is required' });
-    }
-
-    try {
-      const { stdout, stderr } = await execAsync(`python3 rumble_live_resolver.py --check ${channelId}`);
-      if (stderr) {
-        console.error("Resolver stderr:", stderr);
-      }
-      const result = JSON.parse(stdout.trim());
-      res.json(result);
-    } catch (error: any) {
-      console.error("Failed to verify Rumble stream:", error);
-      res.status(500).json({ status: 'error', message: error.message });
-    }
-  });
-
-  app.get('/api/rumble/resolve-new-id', async (req, res) => {
-    try {
-      const { stdout, stderr } = await execAsync(`python3 rumble_live_resolver.py --resolve-new`);
-      if (stderr) {
-        console.error("Resolver stderr:", stderr);
-      }
-      const result = JSON.parse(stdout.trim());
-      res.json(result);
-    } catch (error: any) {
-      console.error("Failed to resolve new Rumble channel ID:", error);
-      res.status(500).json({ status: 'error', message: error.message });
     }
   });
 }
