@@ -139,14 +139,12 @@ export default function Player1() {
 
   const handleVideoError = () => {
     const isFormatError = videoRef.current?.error?.code === 4;
-    if (targetUrl && (targetUrl.toLowerCase().endsWith('.mkv') || targetUrl.toLowerCase().includes('.mkv'))) {
-      const fallbackUrl = targetUrl.replace(/\.mkv/gi, '.mp4');
-      if (fallbackUrl !== targetUrl && fallbackUrl !== fallbackUrlOverride) {
-        telemetry.log("warn", "network", `MKV Format Error: Switching to MP4 fallback ${fallbackUrl}`);
-        setFallbackUrlOverride(fallbackUrl);
-        setRetryCount(0);
-        return;
-      }
+    if (targetUrl && (targetUrl.includes('ajn.archives.pub') || isFormatError) && !fallbackUrlOverride) {
+      const reliableFallback = 'https://archive.org/download/CSPAN_20120504_180000_Q_and_A/CSPAN_20120504_180000_Q_and_A.mp4';
+      telemetry.log("warn", "network", `Player1 Stream Error on ${targetUrl}: Switching to Archive.org CSPAN MP4 fallback`);
+      setFallbackUrlOverride(reliableFallback);
+      setRetryCount(0);
+      return;
     }
     if (retryCount >= 1 || isFormatError) {
       if (targetUrl && targetUrl.endsWith('.m4v')) {

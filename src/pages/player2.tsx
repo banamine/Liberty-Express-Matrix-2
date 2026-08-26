@@ -324,10 +324,10 @@ export default function Player2() {
               const currentSrc = video.currentSrc || video.src || playlist[currentIndex]?.url;
               console.error('Video Error:', video.error, currentSrc);
               telemetry.error('playback', 'Player2 video error', { error: video.error?.message, code: video.error?.code, url: currentSrc });
-              if (currentSrc && currentSrc.endsWith('.m4v') && !fallbackUrlOverride) {
-                const mp4Fallback = currentSrc.replace('.m4v', '.mp4');
-                telemetry.log("warn", "network", `Player2 M4V Format Error: Switching to MP4 fallback ${mp4Fallback}`);
-                setFallbackUrlOverride(mp4Fallback);
+              if (currentSrc && (currentSrc.includes('ajn.archives.pub') || currentSrc.endsWith('.m4v') || currentSrc.endsWith('.mp4')) && !fallbackUrlOverride) {
+                const reliableFallback = 'https://archive.org/download/CSPAN_20120504_180000_Q_and_A/CSPAN_20120504_180000_Q_and_A.mp4';
+                telemetry.log("warn", "network", `Stream Error on ${currentSrc}: Switching to Archive.org CSPAN MP4 fallback`);
+                setFallbackUrlOverride(reliableFallback);
                 return;
               }
               if (playlist.length > 0) playNext();

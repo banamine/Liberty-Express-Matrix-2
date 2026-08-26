@@ -5,7 +5,10 @@ import { episodes, archiveHoldingQueue, appSettings, currentRundown } from '../s
 import { desc, eq, sql } from 'drizzle-orm';
 import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
-import { execSync } from 'child_process';
+import { execSync, exec } from 'child_process';
+import { promisify } from 'util';
+
+const execAsync = promisify(exec);
 
 const upload = multer({ 
   storage: multer.memoryStorage(),
@@ -785,6 +788,9 @@ export function registerRoutes(app: Express) {
       await ensureDbReady();
       const db = getDb();
       const now = new Date();
+      const currentHour = now.getHours();
+      const isBefore4PM = currentHour < 16;
+
       let allEpisodes: any[] = [];
       try {
         allEpisodes = await db.select().from(episodes).orderBy(desc(episodes.importedAt));
@@ -792,43 +798,51 @@ export function registerRoutes(app: Express) {
         console.warn('DB select failed in stream/schedule, using fallback:', dbErr);
       }
 
-      // Filter by allowedPlayers handling player1 for the linear schedule
-      let p1Episodes = allEpisodes.filter(ep => {
-        if (!ep.allowedPlayers) return true;
-        if (Array.isArray(ep.allowedPlayers) && ep.allowedPlayers.includes('player1')) return true;
-        if (typeof ep.allowedPlayers === 'string' && ep.allowedPlayers.includes('player1')) return true;
-        return false;
-      });
-
-      if (p1Episodes.length === 0) {
-        try {
-          const { getAjStatus } = await import('./aj-pool');
-          const ajStatus = getAjStatus();
-          if (ajStatus && ajStatus.files && ajStatus.files.length > 0) {
-            p1Episodes = ajStatus.files.map((f: any, idx: number) => ({
-              title: f.title || f.filename || `AJN Broadcast Hour ${idx + 1}`,
-              duration: 3600,
-              url: f.url || f.videoUrl,
-              groupTitle: f.filename && f.filename.includes('WarRoom') ? 'WarRoom' : 'Alex'
-            }));
-          }
-        } catch (e) {
-          console.warn('Failed to load AJ pool files for schedule:', e);
+      // Load August archive json for fallback/rollover strategy
+      let augArchive: Record<string, any> = {};
+      try {
+        const archivePath = path.join(process.cwd(), 'db', 'archives', '2026-08.json');
+        if (fs.existsSync(archivePath)) {
+          augArchive = JSON.parse(fs.readFileSync(archivePath, 'utf8'));
         }
+      } catch (e) {}
+
+      // Extract Aug 25 items for Fallback State (Before 4:00 PM)
+      const aug25Items = Object.values(augArchive).filter((item: any) => 
+        item.url && item.url.includes('20260825')
+      ).map((item: any) => ({
+        title: item.title || "August 25 Archive Placeholder",
+        duration: item.duration || 3590,
+        url: item.url,
+        groupTitle: item.title?.includes('WarRoom') ? 'WarRoom' : 'Alex'
+      }));
+
+      // Extract Aug 26 items for Live Ingestion (Post-4:00 PM)
+      const aug26Items = Object.values(augArchive).filter((item: any) => 
+        item.url && item.url.includes('20260826')
+      ).map((item: any) => ({
+        title: item.title || "August 26 Live Feed",
+        duration: item.duration || 3590,
+        url: item.url,
+        groupTitle: item.title?.includes('WarRoom') ? 'WarRoom' : 'Alex'
+      }));
+
+      let p1Episodes: any[] = [];
+
+      if (isBefore4PM) {
+        // Fallback State (Before 4:00 PM): Default to August 25th archive queue placeholder loop
+        p1Episodes = aug25Items.length > 0 ? aug25Items : allEpisodes.filter(ep => ep.url?.includes('20260825'));
+      } else {
+        // Rollover Trigger (At 4:00 PM / 16:00) & Live Ingestion (Post-4:00 PM): Populate with August 26th files
+        p1Episodes = aug26Items.length > 0 ? aug26Items : allEpisodes;
       }
 
       if (p1Episodes.length === 0) {
-        p1Episodes = [
+        p1Episodes = allEpisodes.length > 0 ? allEpisodes : [
           {
-            title: "AJN Chronicle Live Hour 1 - WarRoom Broadcast",
+            title: isBefore4PM ? "AJN Archive Placeholder - Aug 25 Loop" : "AJN Live Stream - Aug 26 Fresh Feed",
             duration: 3600,
-            url: "https://ajn.archives.pub/hourly-m4v/2026-08-19_WarRoom-Hr1.m4v",
-            groupTitle: "WarRoom"
-          },
-          {
-            title: "AJN Chronicle Live Hour 2 - Special Report",
-            duration: 3600,
-            url: "https://ajn.archives.pub/hourly-m4v/2026-08-19_Alex-Hr1.m4v",
+            url: isBefore4PM ? "https://ajn.archives.pub/hourly-m4v/20260825_Tue_Alex-Hr1.m4v" : "https://ajn.archives.pub/hourly-m4v/20260826_Wed_Alex-Hr1.m4v",
             groupTitle: "Alex"
           }
         ];
@@ -868,6 +882,7 @@ export function registerRoutes(app: Express) {
         totalDurationSeconds: 86400,
         isFullDay: true,
         generatedAt: now.toISOString(),
+        scheduleMode: isBefore4PM ? "FALLBACK_AUG_25_LOOP" : "LIVE_INGESTION_AUG_26",
         blocks: blocks
       });
     } catch (e: any) {
@@ -1039,6 +1054,40 @@ export function registerRoutes(app: Express) {
       res.json({ streams: all });
     } catch (e: any) {
       res.status(500).json({ error: e.message });
+    }
+  });
+
+  // Rumble Live Stream Verification & Resolution Endpoints
+  app.post('/api/rumble/verify-stream', async (req, res) => {
+    const { channelId } = req.body;
+    if (!channelId) {
+      return res.status(400).json({ error: 'Channel ID is required' });
+    }
+
+    try {
+      const { stdout, stderr } = await execAsync(`python3 rumble_live_resolver.py --check ${channelId}`);
+      if (stderr) {
+        console.error("Resolver stderr:", stderr);
+      }
+      const result = JSON.parse(stdout.trim());
+      res.json(result);
+    } catch (error: any) {
+      console.error("Failed to verify Rumble stream:", error);
+      res.status(500).json({ status: 'error', message: error.message });
+    }
+  });
+
+  app.get('/api/rumble/resolve-new-id', async (req, res) => {
+    try {
+      const { stdout, stderr } = await execAsync(`python3 rumble_live_resolver.py --resolve-new`);
+      if (stderr) {
+        console.error("Resolver stderr:", stderr);
+      }
+      const result = JSON.parse(stdout.trim());
+      res.json(result);
+    } catch (error: any) {
+      console.error("Failed to resolve new Rumble channel ID:", error);
+      res.status(500).json({ status: 'error', message: error.message });
     }
   });
 }

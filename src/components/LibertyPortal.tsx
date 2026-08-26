@@ -22,6 +22,166 @@ interface Channel {
   };
 }
 
+interface RumbleChannelHolder {
+  channelId: string;
+  isLive: boolean;
+  streamUrl: string;
+  lastChecked: string;
+}
+
+interface LiveRumbleHolderProps {
+  onSelectStream?: (streamUrl: string, title: string, channelId: string) => void;
+}
+
+function LiveRumbleHolder({ onSelectStream }: LiveRumbleHolderProps) {
+  const [inputVal, setInputVal] = useState('');
+  const [channelData, setChannelData] = useState<RumbleChannelHolder>({
+    channelId: 'AJN-LIVE-PRIMARY',
+    isLive: false,
+    streamUrl: '',
+    lastChecked: new Date().toLocaleTimeString(),
+  });
+  const [checking, setChecking] = useState<boolean>(false);
+
+  const verifyAndUpdateStream = async (targetId?: string) => {
+    setChecking(true);
+    const queryId = targetId || channelData.channelId;
+    try {
+      const response = await fetch('/api/rumble/verify-stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ channelId: queryId }),
+      });
+      const data = await response.json();
+
+      if (data.status === 'live') {
+        const newHolder = {
+          channelId: data.channelId,
+          isLive: true,
+          streamUrl: data.streamUrl || '',
+          lastChecked: new Date().toLocaleTimeString(),
+        };
+        setChannelData(newHolder);
+        if (onSelectStream && data.streamUrl) {
+          onSelectStream(data.streamUrl, `Rumble: ${data.channelId}`, data.channelId);
+        }
+      } else if (!targetId) {
+        console.warn("Stream rolled into DVR or expired. Fetching new live channel ID...");
+        await fetchNewChannelId();
+      } else {
+        setChannelData(prev => ({
+          ...prev,
+          channelId: queryId,
+          isLive: false,
+          streamUrl: data.streamUrl || prev.streamUrl,
+          lastChecked: new Date().toLocaleTimeString(),
+        }));
+      }
+    } catch (err) {
+      console.error("Failed to verify Rumble live stream:", err);
+    } finally {
+      setChecking(false);
+    }
+  };
+
+  const fetchNewChannelId = async () => {
+    try {
+      const res = await fetch('/api/rumble/resolve-new-id');
+      const newConfig = await res.json();
+      if (newConfig.channelId) {
+        const newHolder = {
+          channelId: newConfig.channelId,
+          isLive: true,
+          streamUrl: newConfig.streamUrl || '',
+          lastChecked: new Date().toLocaleTimeString(),
+        };
+        setChannelData(newHolder);
+        if (onSelectStream && newConfig.streamUrl) {
+          onSelectStream(newConfig.streamUrl, `Rumble: ${newConfig.channelId}`, newConfig.channelId);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to resolve new channel ID:", err);
+    }
+  };
+
+  const handleManualChannelUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inputVal.trim()) return;
+    await verifyAndUpdateStream(inputVal.trim());
+    setInputVal('');
+  };
+
+  useEffect(() => {
+    verifyAndUpdateStream();
+    const interval = setInterval(() => {
+      verifyAndUpdateStream();
+    }, 180000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="p-4 bg-[#1e1e1e] border border-[#333] rounded-lg text-white shadow-xl mb-4">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center space-x-2">
+          <div className="relative flex items-center justify-center">
+            <Radio className={`w-5 h-5 ${channelData.isLive ? 'text-[#33d15f] animate-pulse' : 'text-[#ff6a33]'}`} />
+          </div>
+          <h3 className="font-semibold text-sm tracking-wide">Rumble Stream & Video Resolver</h3>
+        </div>
+        <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
+          channelData.isLive 
+            ? 'bg-[#33d15f]/20 text-[#33d15f] border-[#33d15f]/40' 
+            : 'bg-[#ff6a33]/20 text-[#ff6a33] border-[#ff6a33]/40'
+        }`}>
+          {channelData.isLive ? '● LIVE / READY' : '▲ OFFLINE'}
+        </span>
+      </div>
+
+      <div className="text-xs text-[#b8b8b8] space-y-1.5 mb-3 font-mono bg-[#141414] p-2.5 rounded border border-[#2a2a2a]">
+        <div className="flex justify-between">
+          <span>Active Target:</span>
+          <span className="text-white font-bold truncate max-w-[160px]" title={channelData.channelId}>{channelData.channelId}</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Last Verified:</span>
+          <span className="text-white">{channelData.lastChecked}</span>
+        </div>
+      </div>
+
+      <form onSubmit={handleManualChannelUpdate} className="space-y-2 mb-3">
+        <div className="flex space-x-1.5">
+          <input
+            type="text"
+            placeholder="Rumble URL, slug, or ID (e.g. v7dur0o...)"
+            value={inputVal}
+            onChange={(e) => setInputVal(e.target.value)}
+            className="flex-1 rounded bg-[#141414] border border-[#333] px-2.5 py-1.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#ff6a33]"
+          />
+          <button
+            type="submit"
+            disabled={checking}
+            className="bg-[#ff6a33] hover:bg-[#ff8a5c] text-white px-3 py-1.5 rounded text-xs font-semibold transition"
+          >
+            {checking ? '...' : 'Verify'}
+          </button>
+        </div>
+      </form>
+
+      <div className="flex space-x-2">
+        <button
+          onClick={() => verifyAndUpdateStream()}
+          disabled={checking}
+          className="flex-1 flex items-center justify-center space-x-1.5 bg-[#2a2a2a] hover:bg-[#333] active:bg-[#222] py-2 px-3 rounded text-xs transition border border-[#444] text-white font-medium cursor-pointer"
+        >
+          <RefreshCw className={`w-3.5 h-3.5 ${checking ? 'animate-spin text-[#ff6a33]' : 'text-gray-300'}`} />
+          <span>{checking ? 'Checking Stream...' : 'Refresh Active Feed'}</span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function LibertyPortal() {
   const [channels, setChannels] = useState<Channel[]>([]);
   const [activeChannel, setActiveChannel] = useState<Channel | null>(null);
@@ -62,6 +222,30 @@ export default function LibertyPortal() {
   // switchChannel logic with HLS.js / HTML5 video handling
   const switchChannel = (channel: Channel) => {
     setActiveChannel(channel);
+    setIsPlaying(true);
+  };
+
+  const handleRumbleStreamSelect = (streamUrl: string, title: string, channelId: string) => {
+    const rumbleChannel: Channel = {
+      id: `rumble-${channelId}`,
+      name: title,
+      type: 'rumble',
+      source: 'rumble',
+      status: 'LIVE',
+      streamUrl: streamUrl,
+      currentProgram: {
+        title: title,
+        identifier: channelId
+      }
+    };
+    setChannels(prev => {
+      const exists = prev.some(c => c.id === rumbleChannel.id);
+      if (exists) {
+        return prev.map(c => c.id === rumbleChannel.id ? rumbleChannel : c);
+      }
+      return [rumbleChannel, ...prev];
+    });
+    setActiveChannel(rumbleChannel);
     setIsPlaying(true);
   };
 
@@ -255,9 +439,10 @@ export default function LibertyPortal() {
           </div>
         </div>
 
-        {/* Channel Rail (Span 1) */}
+        {/* Channel Rail & Live Rumble Holder (Span 1) */}
         <div className="lg:col-span-1 flex flex-col space-y-4">
-          <div className="rounded-xl bg-[#1a1a1a] border border-[rgba(255,255,255,0.08)] p-4 flex flex-col h-full max-h-[720px]">
+          <LiveRumbleHolder onSelectStream={handleRumbleStreamSelect} />
+          <div className="rounded-xl bg-[#1a1a1a] border border-[rgba(255,255,255,0.08)] p-4 flex flex-col h-full max-h-[640px]">
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-[rgba(255,255,255,0.08)]">
               <h3 className="text-sm font-semibold uppercase tracking-wider text-[#b8b8b8] flex items-center space-x-2">
                 <Tv className="h-4 w-4 text-[#ff6a33]" />
